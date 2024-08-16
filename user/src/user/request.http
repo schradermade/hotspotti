@@ -1,0 +1,8 @@
+### Create a new user
+POST http://authservice.dev/auth/signup
+content-type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "12345"
+}
