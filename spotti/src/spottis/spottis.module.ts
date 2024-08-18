@@ -4,6 +4,6 @@ import { SpottisService } from './spottis.service';
 
 @Module({
   controllers: [SpottisController],
-  providers: [SpottisService]
+  providers: [SpottisService],
 })
 export class SpottisModule {}
