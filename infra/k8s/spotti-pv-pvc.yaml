@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: spotti-sqlite-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  hostPath:
+    path: /Users/nathanschrader/spotti-sqlite-db # Path on the host machine for Spotti service's DB
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spotti-sqlite-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: spotti-sqlite-pv
