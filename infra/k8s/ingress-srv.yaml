@@ -24,3 +24,10 @@ spec:
                 name: user-srv
                 port:
                   number: 3000
+          - path: /spottis/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: spotti-srv
+                port:
+                  number: 3000
