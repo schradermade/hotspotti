@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: user-sqlite-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  hostPath:
+    path: /Users/nathanschrader/user-sqlite-db # Path on the host machine for User service's DB
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-sqlite-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: user-sqlite-pv
