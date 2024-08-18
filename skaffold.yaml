@@ -8,8 +8,24 @@ build:
   local:
     push: false
   artifacts:
-    - image: schradermade/auth
+    - image: schradermade/hotspotti/auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: schradermade/hotspotti/user
+      context: user
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: schradermade/hotspotti/spotti
+      context: spotti
       docker:
         dockerfile: Dockerfile
       sync:
