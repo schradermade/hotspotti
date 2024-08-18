@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotti-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotti
+  template:
+    metadata:
+      labels:
+        app: spotti
+    spec:
+      containers:
+        - name: spotti
+          image: schradermade/hotspotti/spotti
+          volumeMounts:
+            - mountPath: /app/db # Inside the container
+              name: sqlite-storage
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: spotti-sqlite-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotti-srv
+spec:
+  selector:
+    app: spotti
+  ports:
+    - name: spotti
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
