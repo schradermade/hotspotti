@@ -54,7 +54,7 @@ export class CreateSpottiDto {
   @Type(() => Spotti)
   nearbySpottis!: Spotti[];
 
-  // @IsOptional()
-  // @IsArray()
-  // users?: number[]; // Array of User IDs that have saved this Spotti
+  @IsOptional()
+  @IsArray()
+  users?: number[]; // Array of User IDs that have saved this Spotti
 }
