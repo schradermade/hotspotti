@@ -16,7 +16,7 @@ export class SpottisController {
   async createSpotti(
     @Body() createSpottiDto: CreateSpottiDto,
   ): Promise<Spotti> {
-    return this.spottisService.create(createSpottiDto);
+    return this.spottisService.createOne(createSpottiDto);
   }
 
   @Get('/:spottiId')

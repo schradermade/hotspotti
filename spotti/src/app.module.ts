@@ -5,13 +5,14 @@ import { SpottisModule } from './spottis/spottis.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Spotti } from './spottis/spotti.entity';
 import { SpottisController } from './spottis/spottis.controller';
+import { User } from '@hotspotti/common';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: '/app/db/spotti-db.sqlite',
-      entities: [Spotti],
+      entities: [Spotti, User],
       synchronize: true,
     }),
     SpottisModule,

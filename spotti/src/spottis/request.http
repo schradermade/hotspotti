@@ -3,7 +3,7 @@ POST http://authservice.dev/spottis
 Content-Type: application/json
 
 {
-  "name": "NW Grapefruit Street",
+  "name": "NW Carrot Street",
   "description": "Great food in the NW part of Porltand",
   "locationId": "302",
   "category": "Famous Streets",
@@ -12,8 +12,7 @@ Content-Type: application/json
   "reviews": [],
   "pictures": ["pic1.png", "pic2.png"],
   "bestTimeToVisit": "afternoon",
-  "hoursOfOperation": "9am-5pm",
-  "nearbySpottis": []
+  "hoursOfOperation": "9am-5pm"
 }
 
 ### Test endpoint

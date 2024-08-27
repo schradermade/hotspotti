@@ -7,18 +7,18 @@ import { CreateSpottiDto } from './dtos/create-spotti.dto';
 @Injectable()
 export class SpottisService {
   constructor(
-    @InjectRepository(Spotti) private spottiRepo: Repository<Spotti>,
+    @InjectRepository(Spotti) private spottiRepository: Repository<Spotti>,
   ) {}
 
   async getAll(): Promise<Spotti[]> {
-    const spottis = await this.spottiRepo.find();
+    const spottis = await this.spottiRepository.find();
     return spottis;
   }
 
-  async create(createSpottiDto: CreateSpottiDto): Promise<Spotti> {
-    const newSpotti = this.spottiRepo.create(createSpottiDto);
+  async createOne(data): Promise<any> {
+    const newSpotti = this.spottiRepository.create(data);
 
-    return this.spottiRepo.save(newSpotti);
+    return this.spottiRepository.save(newSpotti);
   }
 
   async getOne(id: number) {
@@ -26,6 +26,6 @@ export class SpottisService {
       return 'NO iD@!';
     }
 
-    return await this.spottiRepo.findOne({ where: { id }, cache: false });
+    return await this.spottiRepository.findOne({ where: { id }, cache: false });
   }
 }
