@@ -7,6 +7,7 @@ import { Spotti } from './spotti.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Spotti])],
   controllers: [SpottisController],
+  exports: [SpottisService],
   providers: [SpottisService],
 })
 export class SpottisModule {}

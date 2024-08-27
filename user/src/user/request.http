@@ -1,8 +1,12 @@
-### Create a new user
-POST http://authservice.dev/auth/signup
+
+
+### Add a spotti to users spottis
+PATCH http://authservice.dev/users/1/spottis
 content-type: application/json
 
 {
-  "email": "test@test.com",
-  "password": "12345"
+  "spottiId": 5
 }
+
+### Get user's spottis
+GET http://authservice.dev/users/1/spottis
