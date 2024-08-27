@@ -49,12 +49,12 @@ export class CreateSpottiDto {
   @IsString()
   hoursofOperation!: string;
 
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => Spotti)
-  nearbySpottis!: Spotti[];
+  // @IsOptional()
+  // @ValidateNested({ each: true })
+  // @Type(() => Spotti)
+  // nearbySpottis!: Spotti[];
 
-  @IsOptional()
-  @IsArray()
-  users?: number[]; // Array of User IDs that have saved this Spotti
+  // @IsOptional()
+  // @IsArray()
+  // users?: number[]; // Array of User IDs that have saved this Spotti
 }
