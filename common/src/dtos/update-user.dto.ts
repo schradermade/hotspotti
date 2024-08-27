@@ -49,8 +49,8 @@ export class UpdateUserDto {
   @IsOptional()
   nearbySpottis!: Spotti[];
 
-  @IsOptional()
-  @IsArray()
-  @IsNumber({}, { each: true }) // Ensures that each element in the array is a number
-  spottis?: number[]; // Array of Spotti IDs that the user saves
+  // @IsOptional()
+  // @IsArray()
+  // @IsNumber({}, { each: true }) // Ensures that each element in the array is a number
+  // spottis?: number[]; // Array of Spotti IDs that the user saves
 }
