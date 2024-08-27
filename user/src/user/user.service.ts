@@ -8,19 +8,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { randomBytes, scrypt as _scrypt } from 'crypto';
-import { promisify } from 'util';
-import { Spotti } from '@hotspotti/common';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-
-const scrypt = promisify(_scrypt);
+import { hashPassword, findUserByIdOrFail } from './utils/';
+import { Spotti } from '@hotspotti/common';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Spotti) private spottiRepository: Repository<Spotti>,
+    @InjectRepository(User) private spottiRepository: Repository<Spotti>,
     private readonly httpService: HttpService,
   ) {}
 
@@ -33,54 +30,40 @@ export class UserService {
     return users;
   }
 
-  create(email: string, password: string) {
-    // if User entity instance is not created first
-    // hooks won't be executed in rest of app; example: @AfterInsert()
-    // --> passing plain object into repo.save wont call hooks
-    const user = this.userRepository.create({ email, password });
+  async create(email: string, password: string) {
+    // see if email is in use
+    const users = await this.find(email);
+    if (users.length) {
+      throw new BadRequestException('Email already exists.');
+    }
+
+    // hash the password
+    const hashedPassword = await hashPassword(password);
+
+    const user = this.userRepository.create({
+      email,
+      password: hashedPassword,
+    });
 
     return this.userRepository.save(user);
   }
 
   async update(id: number, userProvidedData: Partial<User>) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found.');
-    }
+    const user = await findUserByIdOrFail(id, this.userRepository);
+
     Object.assign(user, userProvidedData);
 
     return this.userRepository.save(user);
   }
 
-  async registerNewUser(email: string, password: string) {
-    // see if email is in use
-    console.log('BEFORE-USER:');
-
-    const users = await this.find(email);
-    console.log('USER:', users);
-    if (users.length) {
-      throw new BadRequestException('Email already exists.');
-    }
-    const salt = randomBytes(8).toString('hex');
-    const hash = (await scrypt(password, salt, 32)) as Buffer;
-    const result = salt + '.' + hash.toString('hex');
-    const user = await this.create(email, result);
-
-    return user;
-  }
-
-  async addSpotti(userId: number, spottiId: number): Promise<User> {
+  async addSpotti(id: number, spottiId: number): Promise<User> {
     // find the user
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['spottis'],
-    });
-    if (!user) {
-      throw new NotFoundException('User not found');
+    const user = await findUserByIdOrFail(id, this.userRepository, ['spottis']);
+
+    // check if spottis array has been initialized
+    if (!user.spottis) {
+      user.spottis = [];
     }
-    // if (!user.spottis) {
-    //   user.spottis = [];
-    // }
 
     try {
       // retrieve spotti from spotti service
@@ -96,8 +79,11 @@ export class UserService {
       // Associate the Spotti with the user
       user.spottis.push(spotti);
 
-      // save the updated user entity and return
-      return this.userRepository.save(user);
+      // save the updated user entity
+      await this.userRepository.save(user);
+
+      // return the added spotti
+      return spotti;
     } catch (error) {
       throw new HttpException(
         `Saving Spotti: ${spottiId} to User: ${user.id} failed.`,
@@ -106,11 +92,15 @@ export class UserService {
     }
   }
 
-  async getAllSpottis(userId: number) {
+  async getAllSpottis(id: number): Promise<Spotti[]> {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { id },
       relations: ['spottis'],
     });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     return user.spottis;
   }
 }

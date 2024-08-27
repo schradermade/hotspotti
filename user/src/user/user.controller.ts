@@ -1,17 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from '@hotspotti/common';
+import { CreateUserDto, User } from '@hotspotti/common';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/signup')
-  async createUser(@Body() body: any): Promise<any> {
-    const user = await this.userService.registerNewUser(
-      body.email,
-      body.password,
-    );
+  async createUser(@Body() body: CreateUserDto): Promise<User> {
+    const user = await this.userService.create(body.email, body.password);
     // session.userId = user.id;
 
     return user;
@@ -32,7 +29,12 @@ export class UserController {
   }
 
   @Get('/:id/spottis')
-  async getSpottis(@Param('id') userId: number) {
-    return this.userService.getAllSpottis(userId);
+  async getSpottis(@Param('id') id: number) {
+    const spottis = await this.userService.getAllSpottis(id);
+    if (!spottis || spottis.length === 0) {
+      throw new NotFoundException('No spottis found for this user.');
+    }
+
+    return spottis;
   }
 }
