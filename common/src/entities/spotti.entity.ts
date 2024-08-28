@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 import { User } from './user.entity';
+import { Hub } from './hub.entity';
 
 @Entity()
 export class Spotti {
@@ -41,4 +42,7 @@ export class Spotti {
 
   @ManyToMany(() => User, (user) => user.spottis)
   users!: User[];
+
+  @ManyToMany(() => Hub, (hub) => hub.spottis)
+  hubs!: Hub[];
 }
