@@ -8,3 +8,4 @@ export * from './entities/hub.entity';
 export * from './dtos/create-spotti.dto';
 export * from './dtos/create-user.dto';
 export * from './dtos/update-user.dto';
+export * from './dtos/create-hub.dto';
