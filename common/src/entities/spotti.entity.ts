@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 import { Hub } from './hub.entity';
 
@@ -37,12 +37,15 @@ export class Spotti {
   @Column({ nullable: true })
   hoursofOperation!: string;
 
-  @Column({ type: 'simple-json', nullable: true })
+  @ManyToMany(() => Spotti)
+  @JoinTable()
   nearbySpottis!: Spotti[];
 
   @ManyToMany(() => User, (user) => user.spottis)
+  @JoinTable()
   users!: User[];
 
   @ManyToMany(() => Hub, (hub) => hub.spottis)
+  @JoinTable()
   hubs!: Hub[];
 }
