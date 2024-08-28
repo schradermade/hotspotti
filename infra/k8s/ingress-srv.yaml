@@ -31,3 +31,10 @@ spec:
                 name: spotti-srv
                 port:
                   number: 3000
+          - path: /hubs/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hub-srv
+                port:
+                  number: 3000

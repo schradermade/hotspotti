@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: hub-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: hub
   template:
     metadata:
       labels:
-        app: auth
+        app: hub
     spec:
       containers:
-        - name: auth
-          image: schradermade/hotspotti:auth
+        - name: hub
+          image: schradermade/hotspotti:hub
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: hub-srv
 spec:
   selector:
-    app: auth
+    app: hub
   ports:
-    - name: auth
+    - name: hub
       protocol: TCP
       port: 3000
       targetPort: 3000

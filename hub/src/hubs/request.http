@@ -1,0 +1,10 @@
+### Create a new hub
+POST http://authservice.dev/hubs
+content-type: application/json
+
+{
+  "content": "hi there"
+}
+
+### Get one hub
+GET http://authservice.dev/hubs/hello

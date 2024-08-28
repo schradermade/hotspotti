@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spotti
-          image: schradermade/hotspotti/spotti
+          image: schradermade/hotspotti:spotti
           volumeMounts:
             - mountPath: /app/db # Inside the container
               name: sqlite-storage
