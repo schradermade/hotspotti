@@ -12,13 +12,10 @@ export class Hub {
   @Column({ type: 'geometry', spatialFeatureType: 'Polygon', srid: 4326 })
   boundaries!: string; // Geospatial boundaries for highlighting the Hub area on the map
 
-  @ManyToMany(() => Spotti, (spotti) => spotti.hubs)
-  @JoinTable()
-  spottis!: Spotti[];
-
   @Column({ type: 'text', nullable: true })
   description?: string; // Optional description of the Hub
 
-
-
+  @ManyToMany(() => Spotti, (spotti) => spotti.hubs)
+  @JoinTable()
+  spottis!: Spotti[];
 }
