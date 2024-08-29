@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 import { Hub } from './hub.entity';
+import { forwardRef } from '@nestjs/common';
 
 @Entity()
 export class Spotti {
@@ -41,8 +42,7 @@ export class Spotti {
   @JoinTable()
   nearbySpottis!: Spotti[];
 
-  @ManyToMany(() => User, (user) => user.spottis)
-  @JoinTable()
+  @ManyToMany(() => forwardRef(() => User) as unknown as () => User, (user: User) => user.spottis)  @JoinTable()
   users!: User[];
 
   @ManyToMany(() => Hub, (hub) => hub.spottis)
