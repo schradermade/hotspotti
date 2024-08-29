@@ -20,7 +20,7 @@ export class Hub {
   @JoinTable()
   spottis!: Spotti[];
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  users!: User[];
+  // @ManyToMany(() => User)
+  // @JoinTable()
+  // users!: User[];
 }
