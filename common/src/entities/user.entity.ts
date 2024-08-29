@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Spotti } from './spotti.entity';
 import { forwardRef } from '@nestjs/common';
+import { Hub } from './hub.entity';
 
 
 @Entity()
@@ -42,6 +43,9 @@ export class User {
   @ManyToMany(() => Spotti, (spotti) => spotti.users)
   @JoinTable()
   spottis!: Spotti[];
+
+  @ManyToMany(() => Hub, (hub) => hub.users)
+  hubs!: Hub[];
 
   @AfterInsert()
   logInsert() {
