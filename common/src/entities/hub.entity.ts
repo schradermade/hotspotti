@@ -15,12 +15,4 @@ export class Hub {
 
   @Column({ type: 'text', nullable: true })
   description?: string; // Optional description of the Hub
-
-  @ManyToMany(() => Spotti, (spotti) => spotti.hubs)
-  @JoinTable()
-  spottis!: Spotti[];
-
-  // @ManyToMany(() => User)
-  // @JoinTable()
-  // users!: User[];
 }
