@@ -44,4 +44,7 @@ export class Spotti {
 
   @ManyToMany(() => User, (user) => user.spottis)
   users!: User[];
+
+  @ManyToMany(() => Hub, hub => hub.spottis)
+  hubs!: Hub[];
 }
