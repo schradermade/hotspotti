@@ -10,6 +10,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Spotti } from './spotti.entity';
+import { forwardRef } from '@nestjs/common';
 
 
 @Entity()
@@ -38,7 +39,7 @@ export class User {
   @Column({ nullable: true })
   lng!: number;
 
-  @ManyToMany(() => Spotti, (spotti) => spotti.users, { cascade: true})
+  @ManyToMany(() => forwardRef(() => Spotti) as unknown as () => Spotti, (spotti: Spotti) => spotti.users, { cascade: true })
   @JoinTable()
   spottis!: Spotti[];
 
