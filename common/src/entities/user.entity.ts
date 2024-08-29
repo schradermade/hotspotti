@@ -39,9 +39,9 @@ export class User {
   @Column({ nullable: true })
   lng!: number;
 
-  @ManyToMany(() => Spotti, (spotti) => spotti.users)
-  @JoinTable()
-  spottis!: Spotti[];
+  // @ManyToMany(() => Spotti, (spotti) => spotti.users)
+  // @JoinTable()
+  // spottis!: Spotti[];
 
   @AfterInsert()
   logInsert() {

@@ -42,9 +42,9 @@ export class Spotti {
   @JoinTable()
   nearbySpottis!: Spotti[];
 
-  @ManyToMany(() => User, (user) => user.spottis)
-  @JoinTable()
-  users!: User[];
+  // @ManyToMany(() => User, (user) => user.spottis)
+  // @JoinTable()
+  // users!: User[];
 
   @ManyToMany(() => Hub, (hub) => hub.spottis)
   @JoinTable()
