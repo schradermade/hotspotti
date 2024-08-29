@@ -10,7 +10,7 @@ export class Hub {
   @Column()
   name!: string;
 
-  @Column({ type: 'geometry', spatialFeatureType: 'Polygon', srid: 4326 })
+  @Column({ type: 'text' })
   boundaries!: string; // Geospatial boundaries for highlighting the Hub area on the map
 
   @Column({ type: 'text', nullable: true })
