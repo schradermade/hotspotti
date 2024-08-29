@@ -39,7 +39,7 @@ export class User {
   @Column({ nullable: true })
   lng!: number;
 
-  @ManyToMany(() => forwardRef(() => Spotti) as unknown as () => Spotti, (spotti: Spotti) => spotti.users, { cascade: true })
+  @ManyToMany(() => Spotti, (spotti) => spotti.users)
   @JoinTable()
   spottis!: Spotti[];
 
