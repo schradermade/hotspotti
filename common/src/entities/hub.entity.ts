@@ -18,7 +18,6 @@ export class Hub {
 
   // added after issue fixed
   @ManyToMany(() => Spotti, spotti => spotti.hubs)
-  @JoinTable()
   spottis!: Spotti[];
   
   // added after issue fixed
