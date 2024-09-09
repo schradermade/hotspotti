@@ -3,7 +3,7 @@ POST http://authservice.dev/spottis
 Content-Type: application/json
 
 {
-  "name": "NW Carrot Street",
+  "name": "NW Decaf Street",
   "description": "Great food in the NW part of Porltand",
   "locationId": "302",
   "category": "Famous Streets",
@@ -19,7 +19,7 @@ Content-Type: application/json
 GET http://authservice.dev/spottis/test
 
 ### Get one spotti
-GET http://authservice.dev/spottis/1
+GET http://authservice.dev/spottis/14
 
 ### Get all spottis
 GET http://authservice.dev/spottis

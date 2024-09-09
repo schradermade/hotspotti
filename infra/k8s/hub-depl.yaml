@@ -14,7 +14,15 @@ spec:
     spec:
       containers:
         - name: hub
-          image: schradermade/hotspotti:hub
+          image: schradermade/hotspotti:hub-latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/db # Inside the container
+              name: sqlite-storage
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: hub-sqlite-pvc
 ---
 apiVersion: v1
 kind: Service

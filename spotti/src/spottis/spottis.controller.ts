@@ -7,11 +7,6 @@ import { SpottisService } from './spottis.service';
 export class SpottisController {
   constructor(private readonly spottisService: SpottisService) {}
 
-  @Get()
-  async getAllSpottis(): Promise<Spotti[]> {
-    return this.spottisService.getAll();
-  }
-
   @Post()
   async createSpotti(
     @Body() createSpottiDto: CreateSpottiDto,
@@ -19,13 +14,13 @@ export class SpottisController {
     return this.spottisService.createOne(createSpottiDto);
   }
 
+  @Get()
+  async getAllSpottis(): Promise<Spotti[]> {
+    return this.spottisService.getAll();
+  }
+
   @Get('/:spottiId')
   async getSpotti(@Param('spottiId') spottiId: number) {
     return this.spottisService.getOne(spottiId);
-  }
-
-  @Get('/test')
-  returnTest() {
-    return 'Hi there from spotti';
   }
 }

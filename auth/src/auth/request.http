@@ -3,7 +3,9 @@ POST http://authservice.dev/auth/signup
 content-type: application/json
 
 {
-  "email": "userOne@email.com",
-  "password": "userOne"
+  "firstName": "Nathan",
+  "lastName": "Schrader",
+  "email": "user100@email.com",
+  "password": "user1"
 }
 

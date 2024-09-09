@@ -1,7 +1,7 @@
 
 
 ### Add a spotti to users spottis
-PATCH http://authservice.dev/users/3/spottis
+PATCH http://authservice.dev/users/1/spottis
 content-type: application/json
 
 {
@@ -9,4 +9,4 @@ content-type: application/json
 }
 
 ### Get user's spottis
-GET http://authservice.dev/users/3/spottis
+GET http://authservice.dev/users/1/spottis

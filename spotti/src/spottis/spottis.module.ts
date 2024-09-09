@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { SpottisController } from './spottis.controller';
 import { SpottisService } from './spottis.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Spotti } from './spotti.entity';
+import { Hub, Spotti } from '@hotspotti/common';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Spotti])],
+  imports: [TypeOrmModule.forFeature([Spotti, Hub])],
   controllers: [SpottisController],
   exports: [SpottisService],
   providers: [SpottisService],

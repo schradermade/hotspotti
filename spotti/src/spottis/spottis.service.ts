@@ -10,15 +10,15 @@ export class SpottisService {
     @InjectRepository(Spotti) private spottiRepository: Repository<Spotti>,
   ) {}
 
-  async getAll(): Promise<Spotti[]> {
-    const spottis = await this.spottiRepository.find();
-    return spottis;
-  }
-
-  async createOne(data): Promise<any> {
+  async createOne(data: CreateSpottiDto): Promise<Spotti> {
     const newSpotti = this.spottiRepository.create(data);
 
     return this.spottiRepository.save(newSpotti);
+  }
+
+  async getAll(): Promise<Spotti[]> {
+    const spottis = await this.spottiRepository.find();
+    return spottis;
   }
 
   async getOne(id: number) {

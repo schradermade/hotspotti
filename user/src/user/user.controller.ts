@@ -32,7 +32,7 @@ export class UserController {
   async getSpottis(@Param('id') id: number) {
     const spottis = await this.userService.getAllSpottis(id);
     if (!spottis || spottis.length === 0) {
-      throw new NotFoundException('No spottis found for this user.');
+      throw new NotFoundException('No spottis found for this user!!');
     }
 
     return spottis;

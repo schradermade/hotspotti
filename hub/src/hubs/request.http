@@ -3,8 +3,16 @@ POST http://authservice.dev/hubs
 content-type: application/json
 
 {
-  "content": "hi there"
+  "name": "NW test123 blvd",
+  "boundaries": "test boundaries",
+  "description": "A lively, historic street full of shopping and restaurants."
 }
 
 ### Get one hub
-GET http://authservice.dev/hubs/hello
+GET http://authservice.dev/hubs/4
+
+### Associate Spotti with Hub
+POST http://authservice.dev/hubs/hello
+content-type: application/json
+
+{}

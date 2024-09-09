@@ -13,5 +13,7 @@ RUN apt-get update && apt-get install -y sqlite3 && npm install
 # Copy the rest of the application code
 COPY . .
 
+RUN find /app -type d -name "node_modules" -prune -o -print
+
 # Default command to run the application
 CMD ["npm", "start"]

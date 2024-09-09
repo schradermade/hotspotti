@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta29
 kind: Config
 deploy:
   kubectl:
@@ -24,7 +24,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: schradermade/hotspotti/spotti
+    - image: schradermade/hotspotti/spotti-latest
       context: spotti
       docker:
         dockerfile: Dockerfile
@@ -32,11 +32,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: schradermade/hotspotti/hub
+    - image: schradermade/hotspotti/hub-latest
       context: hub
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: 'src/**/*.ts'
-            dest: .
+            dest: '/app/src'
