@@ -6,13 +6,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToMany,
-  JoinColumn,
   JoinTable,
 } from 'typeorm';
 import { Spotti } from './spotti.entity';
-import { forwardRef } from '@nestjs/common';
 import { Hub } from './hub.entity';
-
 
 @Entity()
 export class User {

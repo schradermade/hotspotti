@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 import { Hub } from './hub.entity';
-import { forwardRef } from '@nestjs/common';
 
 @Entity()
 export class Spotti {
