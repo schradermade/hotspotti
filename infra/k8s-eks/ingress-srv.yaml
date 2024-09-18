@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: authservice.dev
+      http:
+        paths:
+          - path: /auth/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /users/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: user-srv
+                port:
+                  number: 3000
+          - path: /spottis/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: spotti-srv
+                port:
+                  number: 3000
+          - path: /hubs/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hub-srv
+                port:
+                  number: 3000
