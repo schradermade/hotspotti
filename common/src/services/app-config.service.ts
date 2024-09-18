@@ -5,11 +5,12 @@ import { ConfigService } from '@nestjs/config';
 export class AppConfigService {
   constructor(private readonly configService: ConfigService) {} // Inject it here
 
-  getUserServiceUrl(): string {
-    const url = this.configService.get<string>('USER_SERVICE_URL');
+  getServiceBaseUrl(serviceEnvKey: string): string {
+    const url = this.configService.get<string>(serviceEnvKey);
     if (!url) {
-      throw new Error('USER_SERVICE_URL is not defined in the env variables');
+      throw new Error(`${serviceEnvKey} is not defined in the env variables`);
     }
     return url;
   }
+
 }
