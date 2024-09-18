@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HubsModule } from './hubs/hubs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { Hub } from './hubs/hub.entity';
 import { Spotti, User, Hub } from '@hotspotti/common';
 
 @Module({

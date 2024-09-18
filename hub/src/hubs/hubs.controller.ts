@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { HubsService } from './hubs.service';
-// import { Hub } from './hub.entity';
 import { CreateHubDto, Hub } from '@hotspotti/common';
 
 @Controller('hubs')
