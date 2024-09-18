@@ -9,12 +9,22 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from '@hotspotti/common';
+import { AppConfigService, CreateUserDto } from '@hotspotti/common';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly httpService: HttpService) {}
+  private readonly userServiceBaseUrl: string; // Define it as a class property
+
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly appConfigService: AppConfigService, // Inject AppConfigService
+  ) {
+    // Initialize userServiceBaseUrl in the constructor
+    this.userServiceBaseUrl = this.appConfigService.getServiceBaseUrl(
+      'USER_SERVICE_BASE_URL',
+    );
+  }
 
   @Post('/signup')
   @ApiOperation({ summary: 'Create user profile' })
@@ -22,10 +32,9 @@ export class AuthController {
   @ApiResponse({ status: 500, description: 'User creation failed' })
   async createUser(@Body() body: CreateUserDto): Promise<any> {
     const payload = { email: body.email, password: body.password };
+    const userServiceUrl = `${this.userServiceBaseUrl}/users/signup`;
 
     try {
-      const userServiceUrl =
-        'http://user-srv-internal.default.svc.cluster.local:3000/users/signup';
       const response = await firstValueFrom(
         this.httpService.post(userServiceUrl, payload),
       );
@@ -40,9 +49,12 @@ export class AuthController {
   }
 
   @Get('/profile')
+  @ApiOperation({ summary: 'Retrieve user profile' })
+  @ApiResponse({ status: 200, description: 'Profile successfully retrieved' })
+  @ApiResponse({ status: 500, description: 'Profile retrieval failed' })
   async getUserData(@Body() body: any): Promise<any> {
     const { id } = body;
-    const userServiceUrl = `http://user-srv-internal.default.svc.cluster.local:3000/users/${id}`;
+    const userServiceUrl = `${this.userServiceBaseUrl}/users/${id}`;
     const response = await firstValueFrom(this.httpService.get(userServiceUrl));
 
     return response.data;
