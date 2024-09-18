@@ -3,9 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SpottisModule } from './spottis/spottis.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Spotti } from './spottis/spotti.entity';
 import { SpottisController } from './spottis/spottis.controller';
-import { Hub, User } from '@hotspotti/common';
+import { Hub, User, Spotti } from '@hotspotti/common';
 
 @Module({
   imports: [
