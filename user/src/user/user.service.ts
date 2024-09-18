@@ -7,11 +7,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { hashPassword, findUserByIdOrFail } from './utils/';
-import { Spotti } from '@hotspotti/common';
+import { Spotti, User } from '@hotspotti/common';
 
 @Injectable()
 export class UserService {
@@ -28,6 +27,15 @@ export class UserService {
     }
 
     return users;
+  }
+
+  findOne(id: number) {
+    const user = this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`No user found with ID: ${id}`);
+    }
+
+    return user;
   }
 
   async create(email: string, password: string) {

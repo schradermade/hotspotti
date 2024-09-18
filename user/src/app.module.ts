@@ -5,15 +5,14 @@ import { AppService } from './app.service';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/user.entity';
-import { Spotti } from '@hotspotti/common';
+import { Hub, Spotti, User } from '@hotspotti/common';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: '/app/db/user-db.sqlite',
-      entities: [User, Spotti],
+      entities: [User, Spotti, Hub],
       synchronize: true,
     }),
     UserModule,

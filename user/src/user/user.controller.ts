@@ -1,4 +1,12 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, User } from '@hotspotti/common';
 
@@ -8,8 +16,16 @@ export class UserController {
 
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto): Promise<User> {
+    console.log('REACHED THE USER SERVICE SIGNUP POST ROUTE');
     const user = await this.userService.create(body.email, body.password);
     // session.userId = user.id;
+
+    return user;
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id: number) {
+    const user = await this.userService.findOne(id);
 
     return user;
   }
