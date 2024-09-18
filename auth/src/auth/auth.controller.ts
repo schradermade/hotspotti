@@ -9,7 +9,11 @@ import {
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AppConfigService, CreateUserDto } from '@hotspotti/common';
+import {
+  AppConfigService,
+  CreateUserDto,
+  GetUserRequestDto,
+} from '@hotspotti/common';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -52,8 +56,9 @@ export class AuthController {
   @ApiOperation({ summary: 'Retrieve user profile' })
   @ApiResponse({ status: 200, description: 'Profile successfully retrieved' })
   @ApiResponse({ status: 500, description: 'Profile retrieval failed' })
-  async getUserData(@Body() body: any): Promise<any> {
+  async getUserData(@Body() body: GetUserRequestDto): Promise<any> {
     const { id } = body;
+
     const userServiceUrl = `${this.userServiceBaseUrl}/users/${id}`;
     const response = await firstValueFrom(this.httpService.get(userServiceUrl));
 
