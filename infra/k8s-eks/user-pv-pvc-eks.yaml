@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-sqlite-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # You can adjust the storage size as per your needs
+  storageClassName: gp2  # EKS default storage class (General Purpose SSD on EBS)

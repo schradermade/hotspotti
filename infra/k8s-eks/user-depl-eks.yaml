@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+        - name: user
+          image: 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/user:latest  # Updated to use AWS ECR image
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /app/db # Inside the container
+              name: sqlite-storage
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: user-sqlite-pvc  # PersistentVolumeClaim for persistent storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-srv
+spec:
+  selector:
+    app: user
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80    # Expose the service on port 80 externally
+      targetPort: 3000  # Forward to internal port 3000 where the app listens
+  type: LoadBalancer  # Expose the service externally via LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-srv-internal
+spec:
+  selector:
+    app: user
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP  # Internal service for microservices

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotti-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotti
+  template:
+    metadata:
+      labels:
+        app: spotti
+    spec:
+      containers:
+        - name: spotti
+          image: 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/spotti:latest  # Updated to use AWS ECR image
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/db # Inside the container
+              name: sqlite-storage
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: spotti-sqlite-pvc  # PersistentVolumeClaim for persistent storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotti-srv
+spec:
+  selector:
+    app: spotti
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80    # Expose the service on port 80 externally
+      targetPort: 3000  # Forward to internal port 3000 where the app listens
+  type: LoadBalancer  # Expose the service externally via LoadBalancer

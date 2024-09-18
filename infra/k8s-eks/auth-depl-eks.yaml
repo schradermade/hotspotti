@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/auth:latest # Updated to use AWS ECR image
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-srv
+spec:
+  selector:
+    app: auth
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 80  # Expose the service on port 80 externally
+      targetPort: 3000 # Forward to internal port 3000 where the app listens
+  type: LoadBalancer  # To expose the service externally

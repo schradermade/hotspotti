@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hub-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hub
+  template:
+    metadata:
+      labels:
+        app: hub
+    spec:
+      containers:
+        - name: hub
+          image: 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/hub:latest  # Updated to use AWS ECR image
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/db # Inside the container
+              name: sqlite-storage
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: hub-sqlite-pvc # PersistentVolumeClaim for persistent storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hub-srv
+spec:
+  selector:
+    app: hub
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80    # Expose the service on port 80 externally
+      targetPort: 3000  # Forward to internal port 3000 where the app listens
+  type: LoadBalancer  # To expose the service externally
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hub-sqlite-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # You can adjust the size based on your storage needs
+  storageClassName: gp2  # EKS default storage class (General Purpose SSD on EBS)
