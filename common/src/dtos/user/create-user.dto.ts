@@ -1,5 +1,4 @@
-import { IsArray, IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Spotti } from '../entities/spotti.entity';
+import { IsEmail, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {

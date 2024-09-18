@@ -1,5 +1,5 @@
 import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { Spotti } from "../entities/spotti.entity";
+import { Spotti } from "../../entities/spotti.entity";
 
 export class UpdateUserDto {
   @IsString()

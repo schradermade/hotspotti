@@ -1,9 +1,7 @@
 // write out a class that lists all properties that an incoming request
 // to create a spotti should have
 
-import { IsArray, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { Spotti } from '../entities/spotti.entity';
-import { Type } from 'class-transformer';
+import { IsArray, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateSpottiDto {
   @IsOptional()
