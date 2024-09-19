@@ -5,10 +5,15 @@ import { AppService } from './app.service';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Hub, Spotti, User } from '@hotspotti/common';
+import { AppConfigService, Hub, Spotti, User } from '@hotspotti/common';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    // Load env variables for .env file
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: '/app/db/user-db.sqlite',
@@ -20,6 +25,7 @@ import { Hub, Spotti, User } from '@hotspotti/common';
   controllers: [AppController, UserController],
   providers: [
     AppService,
+    AppConfigService,
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({

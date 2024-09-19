@@ -10,15 +10,22 @@ import { Repository } from 'typeorm';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { hashPassword, findUserByIdOrFail } from './utils/';
-import { Spotti, User } from '@hotspotti/common';
+import { AppConfigService, Spotti, User } from '@hotspotti/common';
 
 @Injectable()
 export class UserService {
+  private readonly spottiSrvBaseUrlInternal: string;
+
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(User) private spottiRepository: Repository<Spotti>,
     private readonly httpService: HttpService,
-  ) {}
+    private readonly appConfigService: AppConfigService,
+  ) {
+    this.spottiSrvBaseUrlInternal = this.appConfigService.getServiceBaseUrl(
+      'SPOTTI_SRV_BASE_URL_INTERNAL',
+    );
+  }
 
   find(email: string) {
     const users = this.userRepository.find({ where: { email } });
@@ -67,7 +74,6 @@ export class UserService {
   async addSpotti(id: number, spottiId: number): Promise<User> {
     // find the user
     const user = await findUserByIdOrFail(id, this.userRepository, ['spottis']);
-
     // check if spottis array has been initialized
     if (!user.spottis) {
       user.spottis = [];
@@ -75,11 +81,14 @@ export class UserService {
 
     try {
       // retrieve spotti from spotti service
-      const spottiServiceUrl = `http://spotti-srv:3000/spottis/${spottiId}`;
+      const spottiServiceUrl = `${this.spottiSrvBaseUrlInternal}/spottis/${spottiId}`;
+      console.log('SPOTTI-URL:', spottiServiceUrl);
+
       const response = await firstValueFrom(
         this.httpService.get(spottiServiceUrl),
       );
       const spotti = response.data;
+
       if (!spotti) {
         throw new NotFoundException('spotti not found');
       }
@@ -93,6 +102,7 @@ export class UserService {
       // return the added spotti
       return spotti;
     } catch (error) {
+      console.log('ERROR:', error);
       throw new HttpException(
         `Saving Spotti: ${spottiId} to User: ${user.id} failed.`,
         HttpStatus.INTERNAL_SERVER_ERROR,
