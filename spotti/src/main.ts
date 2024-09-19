@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as morgan from 'morgan';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,19 @@ async function bootstrap() {
 
   // morgan logging
   app.use(morgan('combined'));
-  await app.listen(3000);
+
+  // ValidationPipe globally
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  await app.listen(3000, () => {
+    console.log('Spotti Service: Listening on port 3000!');
+  });
 }
+
 bootstrap();
