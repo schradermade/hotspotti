@@ -37,3 +37,17 @@ spec:
       port: 80    # Expose the service on port 80 externally
       targetPort: 3000  # Forward to internal port 3000 where the app listens
   type: LoadBalancer  # Expose the service externally via LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotti-srv-internal
+spec:
+  selector:
+    app: spotti
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP  # Internal service for microservices
