@@ -10,4 +10,12 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({ example: 'password123', description: 'User password' })
   password!: string;
+
+  @IsString()
+  @ApiProperty({ example: 'Joe', description: 'Users first name' })
+  firstName!: string;
+
+  @IsString()
+  @ApiProperty({ example: 'Miller', description: 'Users last name' })
+  lastName!: string;
 }

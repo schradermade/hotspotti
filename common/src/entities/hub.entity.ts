@@ -26,13 +26,11 @@ export class Hub {
     description: 'Optional description of the Hub',
     required: false,
   })
-  description?: string; // Optional description of the Hub
+  description?: string;
 
-  // added after issue fixed
   @ManyToMany(() => Spotti, spotti => spotti.hubs)
   spottis!: Spotti[];
   
-  // added after issue fixed
   @ManyToMany(() => User, user => user.hubs)
   @JoinTable()
   users!: User[];
