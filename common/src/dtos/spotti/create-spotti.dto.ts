@@ -1,7 +1,8 @@
 // write out a class that lists all properties that an incoming request
 // to create a spotti should have
 
-import { IsArray, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { BestTimeToVisit } from '../../constants/bestTimeToVisit';
 
 export class CreateSpottiDto {
   @IsOptional()
@@ -40,8 +41,8 @@ export class CreateSpottiDto {
   pictures!: string[];
 
   @IsOptional()
-  @IsString()
-  bestTimeToVisit!: string;
+  @IsEnum(BestTimeToVisit, {message: 'bestTimeToVisit must of one of: Morning, Afternoon, Evening, All Day'})
+  bestTimeToVisit!: BestTimeToVisit;
 
   @IsOptional()
   @IsString()
