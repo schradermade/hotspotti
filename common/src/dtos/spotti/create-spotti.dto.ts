@@ -37,7 +37,7 @@ export class CreateSpottiDto {
 
   @IsOptional()
   @IsNumber()
-  @ApiProperty({ example: '3', description: 'Rating of the spotti, must be between 1 - 5' })
+  @ApiProperty({ example: '5', description: 'Rating of the spotti, must be between 1 - 5' })
   rating!: number;
 
   @IsOptional()
@@ -59,6 +59,11 @@ export class CreateSpottiDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
+  @ApiProperty({
+    example: ['urlPathToImage1', 'urlPathToImage2'],
+    description: 'Pictures of the Spotti.',
+    isArray: true,
+  })
   pictures!: string[];
 
   @IsOptional()
