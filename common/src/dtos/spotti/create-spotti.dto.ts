@@ -5,6 +5,7 @@ import { IsArray, IsEnum, IsNumber, IsObject, IsOptional, IsString } from 'class
 import { BestTimeToVisit } from '../../constants/bestTimeToVisit';
 import { Category } from '../../constants/category';
 import { ApiProperty } from '@nestjs/swagger';
+import { Tags } from '../../constants/tags';
 
 export class CreateSpottiDto {
   @IsOptional()
@@ -14,7 +15,10 @@ export class CreateSpottiDto {
 
   @IsOptional()
   @IsString()
-  @ApiProperty({ example: 'Statue of Liberty', description: 'The Statue of Liberty is an iconic symbol of freedom located on Liberty Island in New York Harbor. Gifted to the United States by France in 1886, the statue depicts a robed woman representing Libertas, the Roman goddess of liberty, holding a torch in one hand and a tablet inscribed with the date of the American Declaration of Independence in the other. Standing 305 feet tall, the statue has become a symbol of hope and democracy, welcoming millions of immigrants arriving by sea to the U.S.' })
+  @ApiProperty({ 
+    example: 'The Statue of Liberty is an iconic symbol of freedom located on Liberty Island in New York Harbor. Gifted to the United States by France in 1886, the statue depicts a robed woman representing Libertas, the Roman goddess of liberty, holding a torch in one hand and a tablet inscribed with the date of the American Declaration of Independence in the other. Standing 305 feet tall, the statue has become a symbol of hope and democracy, welcoming millions of immigrants arriving by sea to the U.S.', 
+    description: 'Short paragraph describing the Spotti' 
+  })
   description!: string;
 
   @IsOptional()
@@ -23,18 +27,29 @@ export class CreateSpottiDto {
   locationId!: string;
 
   @IsOptional()
-  @IsEnum(Category, {message: 'category must be one of the following: Landmarks, Historical, Parks, Famous Streets, Museums, Natural Wonders, Beaches, Entertainment, Shopping, Dining, Scenic Views, Religious Sites, Monuments, Night Life.'} )
-  @ApiProperty({ example: 'Landmarks', description: 'Category name of the Spotti.' })
-  category!: string;
+  @IsEnum(Category, {message: 'Category of the Spotti, explicit options set in Category enum.'} )
+  @ApiProperty({
+    example: 'Landmarks',
+    description: 'Category name of the Spotti, options explicitly set in Category enum.',
+    enum: Category,
+  })
+  category!: Category;
 
   @IsOptional()
   @IsNumber()
+  @ApiProperty({ example: '3', description: 'Rating of the spotti, must be between 1 - 5' })
   rating!: number;
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
-  tags!: string[];
+  @IsEnum(Tags, { each: true })
+  @ApiProperty({
+    example: ['Historical', 'Romantic', 'Architectural'],
+    description: 'Tags associated with the Spotti, options explicitly set in Tags enum.',
+    isArray: true,
+    enum: Tags
+  })
+  tags!: Tags[];
 
   @IsOptional()
   @IsArray()
@@ -47,7 +62,13 @@ export class CreateSpottiDto {
   pictures!: string[];
 
   @IsOptional()
-  @IsEnum(BestTimeToVisit, {message: 'bestTimeToVisit must of one of: Morning, Afternoon, Evening, All Day'})
+  @IsEnum(BestTimeToVisit, {message: 'Best time to visity Spotti, options explicitly set in Tags enum'})
+  @ApiProperty({
+    example: 'Historical',
+    description: 'Best time to visit the Spotti, with explicit options set in BestTimeToVisit enum.',
+    isArray: true,
+    enum: BestTimeToVisit
+  })
   bestTimeToVisit!: BestTimeToVisit;
 
   @IsOptional()
