@@ -29,7 +29,7 @@ export class CreateSpottiDto {
   @IsOptional()
   @IsEnum(Category, {message: 'Category of the Spotti, explicit options set in Category enum.'} )
   @ApiProperty({
-    example: 'Landmarks',
+    example: Category.Landmarks,
     description: 'Category name of the Spotti, options explicitly set in Category enum.',
     enum: Category,
   })
@@ -44,7 +44,7 @@ export class CreateSpottiDto {
   @IsArray()
   @IsEnum(Tags, { each: true })
   @ApiProperty({
-    example: ['Historical', 'Romantic', 'Architectural'],
+    example: [Tags.HistoricalSignificance, Tags.Romantic, Tags.Architectural],
     description: 'Tags associated with the Spotti, options explicitly set in Tags enum.',
     isArray: true,
     enum: Tags
@@ -64,7 +64,7 @@ export class CreateSpottiDto {
   @IsOptional()
   @IsEnum(BestTimeToVisit, {message: 'Best time to visity Spotti, options explicitly set in Tags enum'})
   @ApiProperty({
-    example: 'Historical',
+    example: BestTimeToVisit.Evening,
     description: 'Best time to visit the Spotti, with explicit options set in BestTimeToVisit enum.',
     isArray: true,
     enum: BestTimeToVisit
