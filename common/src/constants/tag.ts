@@ -1,4 +1,4 @@
-export enum Tags {
+export enum Tag {
 FamilyFriendly = 'Family Friendly',
 Romantic = 'Romantic',
 Adventure = 'Adventure',

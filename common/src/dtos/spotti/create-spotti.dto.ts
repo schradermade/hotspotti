@@ -5,7 +5,7 @@ import { IsArray, IsEnum, IsNumber, IsObject, IsOptional, IsString } from 'class
 import { BestTimeToVisit } from '../../constants/bestTimeToVisit';
 import { Category } from '../../constants/category';
 import { ApiProperty } from '@nestjs/swagger';
-import { Tags } from '../../constants/tags';
+import { Tag } from '../../constants/tag';
 
 export class CreateSpottiDto {
   @IsOptional()
@@ -42,14 +42,14 @@ export class CreateSpottiDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(Tags, { each: true })
+  @IsEnum(Tag, { each: true })
   @ApiProperty({
-    example: [Tags.HistoricalSignificance, Tags.Romantic, Tags.Architectural],
-    description: 'Tags associated with the Spotti, options explicitly set in Tags enum.',
+    example: [Tag.HistoricalSignificance, Tag.Romantic, Tag.Architectural],
+    description: 'Tags associated with the Spotti, options explicitly set in Tag enum.',
     isArray: true,
-    enum: Tags
+    enum: Tag
   })
-  tags!: Tags[];
+  tags!: Tag[];
 
   @IsOptional()
   @IsArray()
@@ -67,7 +67,7 @@ export class CreateSpottiDto {
   pictures!: string[];
 
   @IsOptional()
-  @IsEnum(BestTimeToVisit, {message: 'Best time to visity Spotti, options explicitly set in Tags enum'})
+  @IsEnum(BestTimeToVisit, {message: 'Best time to visity Spotti, options explicitly set in BestTimeToVisit enum'})
   @ApiProperty({
     example: BestTimeToVisit.Evening,
     description: 'Best time to visit the Spotti, with explicit options set in BestTimeToVisit enum.',
