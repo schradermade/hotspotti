@@ -35,7 +35,12 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Profile successfully created' })
   @ApiResponse({ status: 500, description: 'User creation failed' })
   async createUser(@Body() body: CreateUserDto): Promise<any> {
-    const payload = { email: body.email, password: body.password };
+    const payload = {
+      email: body.email,
+      password: body.password,
+      firstName: body.firstName,
+      lastName: body.lastName,
+    };
     const userServiceUrl = `${this.userServiceBaseUrl}/users/signup`;
 
     try {
