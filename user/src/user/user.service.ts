@@ -45,7 +45,12 @@ export class UserService {
     return user;
   }
 
-  async create(email: string, password: string) {
+  async create(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ) {
     // see if email is in use
     const users = await this.find(email);
     if (users.length) {
@@ -58,6 +63,8 @@ export class UserService {
     const user = this.userRepository.create({
       email,
       password: hashedPassword,
+      firstName,
+      lastName,
     });
 
     return this.userRepository.save(user);

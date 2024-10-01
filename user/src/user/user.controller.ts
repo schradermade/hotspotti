@@ -17,8 +17,12 @@ export class UserController {
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto): Promise<User> {
     console.log('REACHED THE USER SERVICE SIGNUP POST ROUTE');
-    const user = await this.userService.create(body.email, body.password);
-    // session.userId = user.id;
+    const user = await this.userService.create(
+      body.email,
+      body.password,
+      body.firstName,
+      body.lastName,
+    );
 
     return user;
   }
