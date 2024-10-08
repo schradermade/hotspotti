@@ -26,5 +26,8 @@ export * from './dtos/user/update-user.dto';
 export * from './services/app-config.service';
 
 // SQS
-export * from './sqs/sqs.module';
-export * from './sqs/sqs.service';
+export * from './messaging/event-processor/base-processor';
+export * from './messaging/sqs/sqs.module';
+export * from './messaging/sqs/sqs.service';
+export * from './messaging/types/event-message';
+export * from './messaging/utils/event-validator';
