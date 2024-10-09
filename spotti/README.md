@@ -71,3 +71,39 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+DOCKER
+docker build --platform linux/amd64 --no-cache -t 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/spotti:latest . 
+docker push 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/spotti:latest
+
+Authenticate with AWS ECR:
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 626411624502.dkr.ecr.us-west-2.amazonaws.com
+
+
+TEST MESSAGE - AWS SQS:
+{
+  "entityType": "Spotti",
+  "eventType": "SpottiCreated",
+  "payload": {
+    "name": "Bamboo Sushi",
+    "description": "Bamboo Sushi in Lake Oswego is the go-to spot for fresh, sustainable sushi with a chill vibe. It’s where locals come for top-notch rolls, sashimi, and creative small plates, all while supporting eco-friendly practices. Perfect for a laid-back night out or special occasion with friends.",
+    "locationId": "92",
+    "category": "Dining",
+    "rating": 4.7,
+    "tags": [
+      "Hidden Gem",
+      "Popular",
+      "Local Favorite",
+      "Indoor"
+    ],
+    "pictures": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJJMZg3oUlj6j_qzwW4bqWEJvoJhaFn-NxGQ&s",
+      "https://image.resy.com/3/003/2/4229/5052ec54ec55814ca4d7f5390b7fe55f5687acf1/jpg/1:1/1600",
+      "https://cdn.sanity.io/images/njo473vo/production/d9d06819123dd57c3a933167fc36c02ac15a0439-3600x2400.jpg",
+      "https://images.otstatic.com/prod/27683493/3/large.jpg",
+      "https://cdn.sanity.io/images/njo473vo/production/f3913148b0297d3b655318a598179cc01e906bd5-6500x5200.jpg?auto=format&fit=max&q=75&w=3250",
+      "https://cdn.sanity.io/images/njo473vo/production/b9ec4a6f323a7de72f7b6097a04843aa002da806-1200x1200.jpg"
+    ],
+    "bestTimeToVisit": "Evening"
+  }
+}
