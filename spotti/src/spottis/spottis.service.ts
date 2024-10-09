@@ -16,6 +16,10 @@ export class SpottisService {
     return this.spottiRepository.save(newSpotti);
   }
 
+  updateOne(data: any): any {
+    return;
+  }
+
   async getAll(): Promise<Spotti[]> {
     const spottis = await this.spottiRepository.find();
     return spottis;
@@ -23,7 +27,7 @@ export class SpottisService {
 
   async getOne(id: number) {
     if (!id) {
-      return 'NO iD@!';
+      return 'NO iD!';
     }
 
     return await this.spottiRepository.findOne({ where: { id }, cache: false });
