@@ -5,17 +5,22 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  // UseGuards,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   AppConfigService,
   CreateUserDto,
   GetUserRequestDto,
 } from '@hotspotti/common';
+// import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
+// @UseGuards(JwtAuthGuard)
 @Controller('auth')
 export class AuthController {
   private readonly userServiceBaseUrl: string; // Define it as a class property
@@ -23,6 +28,8 @@ export class AuthController {
   constructor(
     private readonly httpService: HttpService,
     private readonly appConfigService: AppConfigService, // Inject AppConfigService
+    private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {
     // Initialize userServiceBaseUrl in the constructor
     this.userServiceBaseUrl = this.appConfigService.getServiceBaseUrl(
@@ -35,20 +42,9 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Profile successfully created' })
   @ApiResponse({ status: 500, description: 'User creation failed' })
   async createUser(@Body() body: CreateUserDto): Promise<any> {
-    const payload = {
-      email: body.email,
-      password: body.password,
-      firstName: body.firstName,
-      lastName: body.lastName,
-    };
-    const userServiceUrl = `${this.userServiceBaseUrl}/users/signup`;
-
     try {
-      const response = await firstValueFrom(
-        this.httpService.post(userServiceUrl, payload),
-      );
-
-      return response.data;
+      const userData = await this.authService.createUser(body);
+      return userData;
     } catch (error) {
       throw new HttpException(
         'User creation failed',

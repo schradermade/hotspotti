@@ -1,15 +1,32 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './auth.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigService } from '@hotspotti/common';
+import { AppConfigService, AppConfigModule } from '@hotspotti/common';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Auth]), HttpModule, ConfigModule],
+  imports: [
+    PassportModule,
+    AppConfigModule,
+    TypeOrmModule.forFeature([Auth]),
+    HttpModule,
+    ConfigModule,
+    JwtModule.registerAsync({
+      imports: [AppConfigModule],
+      inject: [AppConfigService],
+      useFactory: async (appConfigService: AppConfigService) => ({
+        secret: appConfigService.getJwtSecret(),
+        signOptions: { expiresIn: '60m' },
+      }),
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService, AppConfigService],
+  providers: [AuthService, AppConfigService, JwtStrategy],
 })
 export class AuthModule {}
