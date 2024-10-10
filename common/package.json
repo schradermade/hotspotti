@@ -1,6 +1,6 @@
 {
   "name": "@hotspotti/common",
-  "version": "1.0.58",
+  "version": "1.0.59",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -19,10 +19,14 @@
     "@aws-sdk/client-sqs": "^3.667.0",
     "@nestjs/common": "^10.4.1",
     "@nestjs/config": "^3.2.3",
+    "@nestjs/passport": "^10.0.3",
     "@nestjs/swagger": "^7.4.2",
+    "@types/passport-jwt": "^4.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20"
