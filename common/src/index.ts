@@ -37,3 +37,4 @@ export * from './messaging/utils/event-validator';
 export * from './auth/jwt-auth.guard';
 export * from './auth/jwt.strategy'; 
 export * from './auth/guards/user-authorization.guard';
+export * from './auth/token.service';
