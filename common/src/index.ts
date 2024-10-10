@@ -24,6 +24,7 @@ export * from './dtos/user/update-user.dto';
 
 //** SERVICES */
 export * from './services/app-config.service';
+export * from './services/app-config.module';
 
 // SQS
 export * from './messaging/event-processor/base-processor';
