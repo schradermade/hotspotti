@@ -36,3 +36,4 @@ export * from './messaging/utils/event-validator';
 //** JWT Authentication */
 export * from './auth/jwt-auth.guard';
 export * from './auth/jwt.strategy'; 
+export * from './auth/guards/authenticated-request';
