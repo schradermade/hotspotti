@@ -27,24 +27,6 @@ export class UserService {
     );
   }
 
-  find(email: string) {
-    const users = this.userRepository.find({ where: { email } });
-    if (!users) {
-      throw new NotFoundException(`No user found with email ${email}`);
-    }
-
-    return users;
-  }
-
-  findOne(id: number) {
-    const user = this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException(`No user found with ID: ${id}`);
-    }
-
-    return user;
-  }
-
   async create(
     email: string,
     password: string,
@@ -70,6 +52,24 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  find(email: string) {
+    const users = this.userRepository.find({ where: { email } });
+    if (!users) {
+      throw new NotFoundException(`No user found with email ${email}`);
+    }
+
+    return users;
+  }
+
+  findOne(id: number) {
+    const user = this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`No user found with ID: ${id}`);
+    }
+
+    return user;
+  }
+
   async update(id: number, userProvidedData: Partial<User>) {
     const user = await findUserByIdOrFail(id, this.userRepository);
 
@@ -89,7 +89,6 @@ export class UserService {
     try {
       // retrieve spotti from spotti service
       const spottiServiceUrl = `${this.spottiSrvBaseUrlInternal}/spottis/${spottiId}`;
-      console.log('SPOTTI-URL:', spottiServiceUrl);
 
       const response = await firstValueFrom(
         this.httpService.get(spottiServiceUrl),
