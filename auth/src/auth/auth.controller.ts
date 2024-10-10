@@ -52,17 +52,4 @@ export class AuthController {
       );
     }
   }
-
-  @Get('/profile')
-  @ApiOperation({ summary: 'Retrieve user profile' })
-  @ApiResponse({ status: 200, description: 'Profile successfully retrieved' })
-  @ApiResponse({ status: 500, description: 'Profile retrieval failed' })
-  async getUserData(@Body() body: GetUserRequestDto): Promise<any> {
-    const { id } = body;
-
-    const userServiceUrl = `${this.userServiceBaseUrl}/users/${id}`;
-    const response = await firstValueFrom(this.httpService.get(userServiceUrl));
-
-    return response.data;
-  }
 }
