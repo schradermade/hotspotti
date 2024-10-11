@@ -4,7 +4,7 @@ import { Hub } from './hub.entity';
 import { Category } from '../constants/category';
 import { Tag } from '../constants/tag';
 import { BestTimeToVisit } from '../constants/bestTimeToVisit';
-import { SpottiList } from './SpottiList.entity';
+import { SpottiList } from './spottiList.entity';
 
 @Entity()
 export class Spotti {

@@ -9,6 +9,8 @@ export * from './entities/hub.entity';
 export * from './entities/spotti.entity';
 // user
 export * from './entities/user.entity';
+// spottiList
+export * from './entities/spottiList.entity';
 
 //** DTOS */
 // auth

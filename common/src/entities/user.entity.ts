@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Spotti } from './spotti.entity';
 import { Hub } from './hub.entity';
-import { SpottiList } from './SpottiList.entity';
+import { SpottiList } from './spottiList.entity';
 
 @Entity()
 export class User {
