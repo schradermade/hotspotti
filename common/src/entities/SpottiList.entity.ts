@@ -13,7 +13,7 @@ export class SpottiList {
   @ManyToOne(() => User, (user) => user.spottiLists, { onDelete: 'CASCADE' })
   user!: User;
 
-  @ManyToMany(() => Spotti, (spotti) => spotti.spottiLists)
+  @ManyToMany(() => Spotti, (spotti) => spotti.spottiLists, { cascade: true })
   @JoinTable()
   spottis!: Spotti[];
 }
