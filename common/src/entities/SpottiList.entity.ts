@@ -10,7 +10,7 @@ export class SpottiList {
   @Column()
   name!: string;
 
-  @ManyToOne(() => User, (user) => user.spottiLists, { onDelete: 'CASCADE', cascade: true })
+  @ManyToOne(() => User, (user) => user.spottiLists, { onDelete: 'CASCADE' })
   user!: User;
 
   @ManyToMany(() => Spotti, (spotti) => spotti.spottiLists, { cascade: true })
