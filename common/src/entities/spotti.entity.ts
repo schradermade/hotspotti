@@ -4,6 +4,7 @@ import { Hub } from './hub.entity';
 import { Category } from '../constants/category';
 import { Tag } from '../constants/tag';
 import { BestTimeToVisit } from '../constants/bestTimeToVisit';
+import { SpottiList } from './SpottiList.entity';
 
 @Entity()
 export class Spotti {
@@ -25,14 +26,14 @@ export class Spotti {
   @Column()
   rating!: number;
 
-  @Column({ type: 'simple-json', nullable: true })
+  @Column({ type: 'simple-json' })
   tags!: Tag[];
 
   @Column({ type: 'simple-json', nullable: true })
   reviews!: object[];
 
-  @Column({ type: 'simple-json', nullable: true })
-  pictures!: string[];
+  @Column({ type: 'simple-json' })
+  images!: string[];
 
   @Column()
   bestTimeToVisit!: BestTimeToVisit;
@@ -50,4 +51,7 @@ export class Spotti {
   @ManyToMany(() => Hub, hub => hub.spottis)
   @JoinTable()
   hubs!: Hub[];
+
+  @ManyToMany(() => SpottiList, (spottiList) => spottiList.spottis)
+  spottiLists!: SpottiList[];
 }
