@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 import { Hub } from './hub.entity';
+import { SpottiList } from './spottiList.entity';
 import { Category } from '../constants/category';
 import { Tag } from '../constants/tag';
 import { BestTimeToVisit } from '../constants/bestTimeToVisit';
-import { SpottiList } from './spottiList.entity';
 
 @Entity()
 export class Spotti {
