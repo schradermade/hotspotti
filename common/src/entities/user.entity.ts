@@ -7,11 +7,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
-  OneToMany,
 } from 'typeorm';
 import { Spotti } from './spotti.entity';
 import { Hub } from './hub.entity';
-import { SpottiList } from './spottiList.entity';
+// import { SpottiList } from './spottiList.entity';
 
 @Entity()
 export class User {
@@ -46,8 +45,8 @@ export class User {
   @ManyToMany(() => Hub, (hub) => hub.users)
   hubs!: Hub[];
 
-  @OneToMany(() => SpottiList, (spottiList) => spottiList.user, { cascade: true })
-  spottiLists!: SpottiList[];
+  // @OneToMany(() => SpottiList, (spottiList) => spottiList.user, { cascade: true })
+  // spottiLists!: SpottiList[];
 
   @AfterInsert()
   logInsert() {

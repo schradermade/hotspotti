@@ -1,19 +1,19 @@
-import { Entity, Column, ManyToMany, ManyToOne, PrimaryGeneratedColumn, JoinTable } from "typeorm";
-import { User } from "./user.entity";
-import { Spotti } from "./spotti.entity";
+// import { Entity, Column, ManyToMany, ManyToOne, PrimaryGeneratedColumn, JoinTable } from "typeorm";
+// import { User } from "./user.entity";
+// import { Spotti } from "./spotti.entity";
 
-@Entity()
-export class SpottiList {
-  @PrimaryGeneratedColumn()
-  id!: number;
+// @Entity()
+// export class SpottiList {
+//   @PrimaryGeneratedColumn()
+//   id!: number;
 
-  @Column()
-  name!: string;
+//   @Column()
+//   name!: string;
 
-  @ManyToOne(() => User, (user) => user.spottiLists, { onDelete: 'CASCADE' })
-  user!: User;
+//   @ManyToOne(() => User, (user) => user.spottiLists, { onDelete: 'CASCADE' })
+//   user!: User;
 
-  @ManyToMany(() => Spotti, (spotti) => spotti.spottiLists, { cascade: true })
-  @JoinTable()
-  spottis!: Spotti[];
-}
+//   @ManyToMany(() => Spotti, (spotti) => spotti.spottiLists, { cascade: true })
+//   @JoinTable()
+//   spottis!: Spotti[];
+// }

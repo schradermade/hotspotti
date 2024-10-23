@@ -10,7 +10,7 @@ export * from './entities/spotti.entity';
 // user
 export * from './entities/user.entity';
 // spottiList
-export * from './entities/spottiList.entity';
+// export * from './entities/spottiList.entity';
 
 //** DTOS */
 // auth
@@ -22,7 +22,6 @@ export * from './dtos/spotti/create-spotti.dto';
 export * from './dtos/user/create-user.dto';
 export * from './dtos/user/get-user.dto';
 export * from './dtos/user/update-user.dto';
-
 
 //** SERVICES */
 export * from './services/app-config.service';
@@ -37,6 +36,6 @@ export * from './messaging/utils/event-validator';
 
 //** JWT Authentication */
 export * from './auth/jwt-auth.guard';
-export * from './auth/jwt.strategy'; 
+export * from './auth/jwt.strategy';
 export * from './auth/guards/user-authorization.guard';
 export * from './auth/token.service';
