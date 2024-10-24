@@ -14,6 +14,7 @@ export * from './entities/user.entity';
 
 //** DTOS */
 // auth
+export * from './dtos/auth/signin.dto';
 // hub
 export * from './dtos/hub/create-hub.dto';
 // spotti
