@@ -26,11 +26,11 @@ export class User {
   @Column({ unique: true })
   email!: string;
 
-  @Column()
-  hashedPassword!: string;
+  @Column({ nullable: true })
+  password!: string;
 
-  @Column()
-  salt!: string;
+  // @Column()
+  // salt!: string;
 
   @Column({ nullable: true })
   phone!: string;
