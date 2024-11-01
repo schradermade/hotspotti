@@ -1,15 +1,16 @@
 import {
   Body,
   Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Patch,
   Post,
+  Get,
+  Param,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, User } from '@hotspotti/common';
+import { CreateUserDto, User, SignInDto } from '@hotspotti/common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -27,34 +28,18 @@ export class UserController {
     return user;
   }
 
-  @Get('/:id')
-  async getUser(@Param('id') id: number) {
-    const user = await this.userService.findOne(id);
-
-    return user;
+  @Post('/signin')
+  async signIn(@Body() signInDto: SignInDto): Promise<any> {
+    return this.userService.signIn(signInDto);
   }
 
-  // @Patch('/:id')
-  // updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-  //   return this.userService.update(parseInt(id), body);
-  // }
-
-  @Patch('/:id/spottis')
-  async addSpotti(
-    @Param('id') userId: number,
-    @Body() body: any,
-  ): Promise<User> {
-    const { spottiId } = body;
-    return await this.userService.addSpotti(userId, spottiId);
-  }
-
-  @Get('/:id/spottis')
-  async getSpottis(@Param('id') id: number) {
-    const spottis = await this.userService.getAllSpottis(id);
-    if (!spottis || spottis.length === 0) {
-      throw new NotFoundException('No spottis found for this user!!');
+  @Get('/email/:email')
+  async findUserByEmail(@Param('email') email: string) {
+    const user = await this.userService.findUserByEmail(email);
+    console.log('USER!:', user);
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
     }
-
-    return spottis;
+    return user;
   }
 }
