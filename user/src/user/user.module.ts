@@ -1,19 +1,40 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from './user.controller';
-import { AppConfigService, Hub, Spotti, User } from '@hotspotti/common';
+import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@nestjs/config';
+import {
+  AppConfigService,
+  AppConfigModule,
+  Hub,
+  Spotti,
+  User,
+  JwtStrategy,
+  UserAuthorizationGuard,
+  TokenService,
+} from '@hotspotti/common';
+import { PassportModule } from '@nestjs/passport';
+
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { ProtectedUserController } from './protected-user.controller';
 
 @Module({
   imports: [
+    PassportModule,
+    AppConfigModule,
     TypeOrmModule.forFeature([User, Spotti, Hub]),
     HttpModule,
-    ConfigModule,
+    JwtModule.registerAsync({
+      imports: [AppConfigModule],
+      inject: [AppConfigService],
+      useFactory: async (appConfigService: AppConfigService) => ({
+        secret: appConfigService.getJwtSecret(),
+        signOptions: { expiresIn: '60m' },
+      }),
+    }),
   ],
-  controllers: [UserController],
-  providers: [UserService, AppConfigService],
+  controllers: [UserController, ProtectedUserController],
+  providers: [UserService, JwtStrategy, UserAuthorizationGuard, TokenService],
   exports: [UserService],
 })
 export class UserModule {}
