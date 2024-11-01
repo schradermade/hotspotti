@@ -12,6 +12,7 @@ async function bootstrap() {
     .setTitle('Hotspotti - User service')
     .setDescription('API documentation for the User service')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
