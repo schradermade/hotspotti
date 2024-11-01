@@ -4,10 +4,12 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Get,
+  Query,
   // UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from '@hotspotti/common';
+import { CreateUserDto, SignInDto } from '@hotspotti/common';
 // import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthService } from './auth.service';
 
@@ -31,5 +33,28 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Post('/signin')
+  @ApiOperation({ summary: 'Sign user in' })
+  @ApiResponse({ status: 200, description: 'User successfully signed in' })
+  @ApiResponse({ status: 500, description: 'User signin failed' })
+  async signIn(@Body() body: SignInDto): Promise<any> {
+    try {
+      const response = await this.authService.signIn(body);
+      return response;
+    } catch (error) {
+      console.error('Sign-in error:', error);
+      throw new HttpException(
+        'User sign-in failed',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('/check-email')
+  async checkEmailInUse(@Query('email') email: string): Promise<any> {
+    const emailExists = await this.authService.checkEmailInUse(email);
+    return { emailInUse: emailExists };
   }
 }
