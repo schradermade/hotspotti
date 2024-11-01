@@ -5,7 +5,11 @@ import { Auth } from './auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigService, AppConfigModule } from '@hotspotti/common';
+import {
+  AppConfigService,
+  AppConfigModule,
+  TokenService,
+} from '@hotspotti/common';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
@@ -27,6 +31,6 @@ import { PassportModule } from '@nestjs/passport';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AppConfigService, JwtStrategy],
+  providers: [AuthService, AppConfigService, JwtStrategy, TokenService],
 })
 export class AuthModule {}
