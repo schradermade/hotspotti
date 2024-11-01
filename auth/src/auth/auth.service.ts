@@ -1,17 +1,27 @@
-import { CreateUserDto } from '@hotspotti/common';
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
+import {
+  AppConfigService,
+  CreateUserDto,
+  SignInDto,
+  TokenService,
+} from '@hotspotti/common';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class AuthService {
+  private readonly userServiceBaseUrl: string;
+
   constructor(
-    private readonly jwtService: JwtService,
     private readonly httpService: HttpService,
-    @Inject('USER_SERVICE_BASE_URL')
-    private readonly userServiceBaseUrl: string,
-  ) {}
+    private readonly appConfigService: AppConfigService,
+    private readonly tokenService: TokenService,
+  ) {
+    this.userServiceBaseUrl = this.appConfigService.getServiceBaseUrl(
+      'USER_SERVICE_BASE_URL',
+    );
+  }
 
   async createUser(body: CreateUserDto): Promise<any> {
     const payload = {
@@ -20,15 +30,16 @@ export class AuthService {
       firstName: body.firstName,
       lastName: body.lastName,
     };
-    const userServiceUrl = `${this.userServiceBaseUrl}/users/signup`;
 
     try {
       const response = await firstValueFrom(
-        this.httpService.post(userServiceUrl, payload),
+        this.httpService.post(
+          `${this.userServiceBaseUrl}/users/signup`,
+          payload,
+        ),
       );
 
-      const jwtPayload = { id: response.data.id, email: response.data.email };
-      const userJwt = this.jwtService.sign(jwtPayload);
+      const userJwt = await this.tokenService.generateToken(response.data);
 
       return {
         accessToken: userJwt,
@@ -51,16 +62,57 @@ export class AuthService {
     }
   }
 
-  async generatetoken(user: any) {
-    const payload = { userId: user.id, email: user.email };
-    return this.jwtService.sign(payload);
+  async signIn(signInDto: SignInDto): Promise<any> {
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(
+          `${this.userServiceBaseUrl}/users/signin`,
+          signInDto,
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      // Check if the error is an AxiosError and typecast it
+      if (error instanceof AxiosError) {
+        console.error('Axios error:', error);
+
+        // Handle 401 Unauthorized
+        if (error.response?.status === 401) {
+          throw new HttpException(
+            'Invalid credentials',
+            HttpStatus.UNAUTHORIZED,
+          );
+        }
+
+        // Handle other errors (e.g., 500 Internal Server Error)
+        throw new HttpException(
+          error.response?.data?.message || 'Failed to sign in',
+          error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      // If it's not an AxiosError, throw a generic error
+      console.error('Sign-in error:', error);
+      throw new HttpException(
+        'Failed to sign in',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  async validateToken(token: string) {
+  async checkEmailInUse(email: string): Promise<boolean> {
+    console.log('AUTH_CHECK_EMAIL:');
     try {
-      return this.jwtService.verify(token);
+      const response = await firstValueFrom(
+        this.httpService.get(`${this.userServiceBaseUrl}/users/email/${email}`),
+      );
+      console.log('CHECK_RESPONSE:', response.data);
+      return !!response.data;
     } catch (error) {
-      return null;
+      if (error.response && error.response.status === 404) {
+        return false;
+      }
+      throw error;
     }
   }
 }
