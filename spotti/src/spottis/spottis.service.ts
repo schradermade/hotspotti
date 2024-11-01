@@ -32,4 +32,11 @@ export class SpottisService {
 
     return await this.spottiRepository.findOne({ where: { id }, cache: false });
   }
+
+  async getPaginatedSpottis(limit: number, offset: number): Promise<Spotti[]> {
+    return this.spottiRepository.find({
+      take: limit,
+      skip: offset,
+    });
+  }
 }

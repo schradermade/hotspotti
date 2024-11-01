@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Get } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, Query } from '@nestjs/common';
 import { CreateSpottiDto } from './dtos/create-spotti.dto';
 import { Spotti } from './spotti.entity';
 import { SpottisService } from './spottis.service';
@@ -15,8 +15,16 @@ export class SpottisController {
   }
 
   @Get()
-  async getAllSpottis(): Promise<Spotti[]> {
-    return this.spottisService.getAll();
+  async getPaginatedSpottis(
+    @Query('limit') limit: string = '10',
+    @Query('offset') offset: string = '0',
+  ): Promise<Spotti[]> {
+    const spottis = this.spottisService.getPaginatedSpottis(
+      parseInt(limit, 10),
+      parseInt(offset, 10),
+    );
+    console.log('SPOTTIS:', spottis);
+    return spottis;
   }
 
   @Get('/:spottiId')
