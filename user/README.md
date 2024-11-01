@@ -76,3 +76,6 @@ Nest is [MIT licensed](LICENSE).
 DOCKER
 docker build --platform linux/amd64 --no-cache -t 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/user:latest . 
 docker push 626411624502.dkr.ecr.us-west-2.amazonaws.com/hotspotti/user:latest
+
+Authenticate with AWS ECR:
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 626411624502.dkr.ecr.us-west-2.amazonaws.com
